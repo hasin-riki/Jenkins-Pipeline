@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-k8s-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-k8s
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nodejs-k8s
+    spec:
+      containers:
+      - name: nodejs-k8s
+        image: yourusername/nodejs-app
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-k8ssvc
+spec:
+  selector:
+    app: nodejs-k8s
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8080
+  type: NodePort

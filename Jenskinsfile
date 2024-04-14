@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout code') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hasin-riki/Jenkins-Pipeline']]])
+            }
+        }
+        stage('Install dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                script {
+                    sh 'docker build -t hasinzmn/jenkins-pipeline-nodejs .'
+                }
+            }
+        }
+        stage('Push image to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                        sh 'docker login -u hasinzmn -p ${dockerhubpwd}'
+                    }
+                    sh 'docker push hasinzmn/jenkins-pipeline-nodejs'
+                }
+            }
+        }
+        // stage('Deploy to Kubernetes') {
+        //     steps {
+        //         script {
+        //             kubernetesDeploy(configs: 'deploymentservice.yaml', kubeconfigId: 'k8s-config-id')
+        //         }
+        //     }
+        // }
+    }
+}

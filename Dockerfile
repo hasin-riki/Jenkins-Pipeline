@@ -1,23 +1,14 @@
-# Use the latest Node.js image as the base image
-FROM node:latest
+FROM node:20
 
-# Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY package.json ./
+COPY package-lock.json ./
 
-# Install npm dependencies
 RUN npm install
 
-# Copy the rest of the application files to the working directory
 COPY . .
 
-# Set environment variable for the application port
-ENV PORT=3000
+EXPOSE 8080
 
-# Expose port 3000 to allow communication to the application outside of the container
-EXPOSE 3000
-
-# Define the command to start the application
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
