@@ -14,7 +14,7 @@ app.use(
     cors({
         origin: process.env.ORIGIN,
         methods: ['GET','POST','PUT','PATCH','DELETE'],
-        allowedHeaders: ['Content-Type','Authorization'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true
     })
 );
@@ -37,7 +37,7 @@ mongoose.connect(process.env.MONGO_LINK).then(()=>{
 
 //routes
 app.get('/',(req,res)=>{
-    res.send('DotClick : Trial');
+    res.send('Jenkins : Pipeline');
 });
 
 app.get('/success',(req,res)=>{
