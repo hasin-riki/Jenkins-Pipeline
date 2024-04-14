@@ -29,12 +29,12 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy to Kubernetes') {
-        //     steps {
-        //         script {
-        //             kubernetesDeploy(configs: 'deploymentservice.yaml', kubeconfigId: 'k8s-config-id')
-        //         }
-        //     }
-        // }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    kubernetesDeploy(configs: 'deploymentservice.yaml', kubeconfigId: 'k8s-config-id')
+                }
+            }
+        }
     }
 }
